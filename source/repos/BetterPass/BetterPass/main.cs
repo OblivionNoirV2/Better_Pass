@@ -30,35 +30,39 @@ public class GetComplexity
 //determine if user wants randomized password assembly
 public class RandomAssembly
 {
+    char yesno;
     public bool RA()
     {
         bool WantsRandom;
-
         Console.WriteLine(
             "Do you want the order of the password components to be randomized? Type 'y' or 'n'"
             );
-        while (true)
+        while (!char.TryParse(Console.ReadLine(), 
+            out yesno)
+            && yesno != 'y'
+            && yesno != 'n')
         {
-            //catch any non-char responses
-            try
-            {
-                ConsoleKeyInfo response = Console.ReadKey();
-                if (response.KeyChar == 'y')
-                {
-                    HowMany Next = new HowMany();
-                    Next.HM();
-
-
-                }
-            }
-            catch
-            {
-
-            }
+            Console.WriteLine("Please enter a valid response");
+        };
+       
+        if (yesno == 'y')
+        {
+           WantsRandom = true;
         }
+        else
+        {
+            WantsRandom = false;
+        }
+        //this might need to be async
+        HowMany count = new HowMany();
+        count.HM();
+
+        return WantsRandom;
+
     }
 };
 //determine how many passwords should be generated
+
 public class HowMany
 {
     public static int HowManyP;
@@ -69,8 +73,8 @@ public class HowMany
             );
         while (!int.TryParse(Console.ReadLine(),
             out HowManyP)
-            || HowManyP < 100
-            || HowManyP != 0)
+            && HowManyP < 100
+            && HowManyP != 0)
         {
             Console.WriteLine("Please enter a value between 1 and 100");
         };
@@ -95,7 +99,7 @@ public class ChoosePath
     public void SwitchySwitch(int level, bool RandomAssembly)
     {
         //Console.WriteLine(GetComplexity.difficulty_selection + $" MADE IT!");
-
+     
         switch (level)
         {
             case 1:

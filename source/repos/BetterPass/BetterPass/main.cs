@@ -39,7 +39,7 @@ public class RandomAssembly
             );
         while (!char.TryParse(Console.ReadLine(), 
             out yesno)
-            && yesno != 'y'
+            || yesno != 'y'
             && yesno != 'n')
         {
             Console.WriteLine("Please enter a valid response");
@@ -78,7 +78,8 @@ public class HowMany
         {
             Console.WriteLine("Please enter a value between 1 and 100");
         };
-        Console.WriteLine(HowManyP);
+        
+        Console.WriteLine($"Creating {HowManyP} {(HowManyP == 1 ? "password": "passwords")}");
         return HowManyP;
     }
 };
@@ -96,14 +97,14 @@ public class HowMany
 
 public class ChoosePath
 {
-    public void SwitchySwitch(int level, bool RandomAssembly)
+    public void SwitchySwitch(int level, bool is_r, int gen_num)
     {
         //Console.WriteLine(GetComplexity.difficulty_selection + $" MADE IT!");
      
         switch (level)
         {
             case 1:
-                if (RandomAssembly)
+                if (is_r)
                 {
                     //move on to the generation algorithms with the data we now have
                 }

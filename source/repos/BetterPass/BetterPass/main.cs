@@ -2,7 +2,7 @@
 //this enables async
 using System.Threading.Tasks;
 using System.Net.Http;
-
+using System.Security.Cryptography.X509Certificates;
 
 public class GetComplexity 
 {
@@ -22,7 +22,7 @@ public class GetComplexity
 
             Console.WriteLine("Please enter a valid response");
         };
-        //enable moving to switchyswitch
+      
         RandomAssembly choice = new RandomAssembly();
         choice.RA();
     }
@@ -73,13 +73,13 @@ public class HowMany
             );
         while (!int.TryParse(Console.ReadLine(),
             out HowManyP)
-            && HowManyP < 100
-            && HowManyP != 0)
+            || HowManyP > 100
+            || HowManyP < 0)
         {
             Console.WriteLine("Please enter a value between 1 and 100");
         };
         
-        Console.WriteLine($"Creating {HowManyP} {(HowManyP == 1 ? "password": "passwords")}");
+        Console.WriteLine($"Creating {HowManyP} {(HowManyP == 1 ? "password": "passwords")}...");
         return HowManyP;
     }
 };
@@ -97,41 +97,23 @@ public class HowMany
 
 public class ChoosePath
 {
-    public void SwitchySwitch(int level, bool is_r, int gen_num)
+    public void Path()
     {
-        //Console.WriteLine(GetComplexity.difficulty_selection + $" MADE IT!");
-     
-        switch (level)
-        {
-            case 1:
-                if (is_r)
-                {
-                    //move on to the generation algorithms with the data we now have
-                }
-                break;
-
-            case 2:
-
-                break;
-
-            case 3:
-
-                break;
-
-            case 4:
-
-                break;
-
-            default:
-                Console.WriteLine("shits fucked");
-                break;
-
-        };
+        //retrieve the values from above and create a tree to determine the generation path
+        //look into get set
+      
 
     }
 };
 
+/*public class Generation
+{
+    public string Results(int level, bool is_r, int count)
+    {
 
+    }
+}*/
+//maybe move this to seperate file
 namespace WordSpace 
 {
     public class GetWord 

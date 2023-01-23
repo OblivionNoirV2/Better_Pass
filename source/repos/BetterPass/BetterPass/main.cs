@@ -2,15 +2,13 @@
 //this enables async
 using System.Threading.Tasks;
 using System.Net.Http;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading;
 using System.Collections.Generic;
+
 
 public class GetComplexity 
 {
     public static int difficulty_selection;
-    public static int Main() 
+    public int Main() 
     {
         Console.WriteLine(
             "Select a complexity level, 1-4. 1 will meet requirements of most sites."
@@ -35,7 +33,7 @@ public class GetComplexity
 public class RandomAssembly
 {
     char yesno;
-    public bool RA()
+    public void RA()
     {
         bool WantsRandom;
         Console.WriteLine(
@@ -51,7 +49,7 @@ public class RandomAssembly
        
         if (yesno == 'y')
         {
-           WantsRandom = true;
+            WantsRandom = true;
         }
         else
         {
@@ -59,9 +57,7 @@ public class RandomAssembly
         }
         //this might need to be async
         HowMany count = new HowMany();
-        count.HM();
-
-        return WantsRandom;
+        count.HM(WantsRandom);
 
     }
 };
@@ -69,8 +65,8 @@ public class RandomAssembly
 
 public class HowMany
 {
-    public static int HowManyP;
-    public int HM()
+    public int HowManyP;
+    public void HM(bool WantsRandom)
     {
         Console.WriteLine(
             "How many generations should it make? Limit of 100"
@@ -86,34 +82,26 @@ public class HowMany
         Console.WriteLine($"Creating {HowManyP} {(HowManyP == 1 ? "password": "passwords")}...");
 
         ChoosePath path_ = new ChoosePath();
-        path_.Path();
-        return HowManyP;
+        path_.FuncLoop(HowManyP, GetComplexity.difficulty_selection, WantsRandom);
     }
 };
-
-
 
 //determine the generation path
 public class ChoosePath
 {
-    public void Path()
+   
+    public void FuncLoop(int count, int complexity, bool isRandom)
     {
-        switch (GetComplexity.difficulty_selection)
+        for(int i = 0; i < count; i++)
         {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            default:
-                Console.WriteLine("Shouldn't be here");
-                break;
-                //retrieve the values from above and create a tree to determine the generation path
+            //Retrieve the yesno value and generate
+            //pass in complexity and yesno, count is already dealt with here
+            
+
         }
+
     }
+ 
 };
 //Used for symbols and any additional letters to meet the complexity requirements
 namespace Fluff
@@ -167,8 +155,8 @@ namespace Fluff
 };
 //if characters are not long enough with the words, append random letters from the alphabet 
 //if too long, remove the excess chars
-//1 = 8 characters, 1 uppercase, rest lowercase, 1 int, 1 special char
-//2 = 10 characters, 2 uppercase, rest lower, 2 int, 2 special char
+//1 = 1 word, 8 characters, 1 uppercase, rest lowercase, 1 int, 1 special char
+//2 = 1 word, 10 characters, 2 uppercase, rest lower, 2 int, 2 special char
 //3 = 2 words, 12 char, 3 uppercase, rest lower, 3 int, 3 special char 
 //4 2 words, 14 char, 4 uppercase, rest lower, 4 int, 4 special char
 
@@ -178,7 +166,7 @@ public class ShowTime
 {
     //the final results to be returned
     List<string> FinalGens = new List<string>();
-    public static string PasswordGeneration(int complexity, int count, bool isRandomized)
+    public static string PasswordGeneration(int complexity, bool isRandom)
     {
 
     }

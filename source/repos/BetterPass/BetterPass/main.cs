@@ -2,12 +2,15 @@
 //this enables async
 using System.Threading.Tasks;
 using System.Net.Http;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
+using System.Collections.Generic;
 
 public class GetComplexity 
 {
     public static int difficulty_selection;
-    public static void Main() 
+    public static int Main() 
     {
         Console.WriteLine(
             "Select a complexity level, 1-4. 1 will meet requirements of most sites."
@@ -25,6 +28,7 @@ public class GetComplexity
       
         RandomAssembly choice = new RandomAssembly();
         choice.RA();
+        return difficulty_selection;
     }
 };
 //determine if user wants randomized password assembly
@@ -80,11 +84,87 @@ public class HowMany
         };
         
         Console.WriteLine($"Creating {HowManyP} {(HowManyP == 1 ? "password": "passwords")}...");
+
+        ChoosePath path_ = new ChoosePath();
+        path_.Path();
         return HowManyP;
     }
 };
+
+
+
 //determine the generation path
-//takes in 1 - 4 
+public class ChoosePath
+{
+    public void Path()
+    {
+        switch (GetComplexity.difficulty_selection)
+        {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            default:
+                Console.WriteLine("Shouldn't be here");
+                break;
+                //retrieve the values from above and create a tree to determine the generation path
+        }
+    }
+};
+//Used for symbols and any additional letters to meet the complexity requirements
+namespace Fluff
+{
+    public class FluffChild
+    {   //random numbers to append onto the word(s), each 1 digit
+        public static void RandNum(int num_int_generations)
+        {
+            Random rnd_num = new Random();
+            int num = rnd_num.Next(1, 10);
+            for (int i = 0; i < num_int_generations; i++) {
+                //limit generations to 1 digit
+                num = rnd_num.Next(1, 10);//retrieve this later
+            };
+        }
+        public static void RandAlph(int num_alph_generations)
+        { 
+            char[] alphabet = 
+            {
+                'a', 'b', 'c', 'd', 'e',
+                'f', 'g', 'h', 'i', 'j',
+                'k', 'l', 'm', 'n', 'o',
+                'p', 'q', 'r', 's', 't',
+                'u', 'v', 'w', 'x', 'y', 'z' 
+            };
+            Random rnd_alph = new Random();
+           
+            for (int i = 0; i < num_alph_generations; i++) { 
+                //get random value from alphabet
+                int alph_index = rnd_alph.Next(0, alphabet.Length);
+                char alph_char = alphabet[alph_index];//retrieve this later
+            }
+        }
+        public static void RandSym(int num_sym_generations)
+        {
+
+            char[] symbols =
+            {  '~', '`', '!', '@', '#', '$', '%', '^', '&',
+                '*', '(', ')', '_', '-', '+', '=', '{', '[',
+                '}', ']', '|', ':', ';', '"', '<' , '>', '.',
+                '?', '/'
+            };
+            Random rnd_sym = new Random();
+            for (int i = 0; i < num_sym_generations; i++)
+            {
+                int sym_index = rnd_sym.Next(0, symbols.Length);
+                char sym_char = symbols[sym_index];//retrieve later
+            }
+        }
+    };
+};
 //if characters are not long enough with the words, append random letters from the alphabet 
 //if too long, remove the excess chars
 //1 = 8 characters, 1 uppercase, rest lowercase, 1 int, 1 special char
@@ -94,26 +174,17 @@ public class HowMany
 
 //if "randomly assembled" is chosen, all of these elements get randomly
 //strung together instead of a simple append
-
-public class ChoosePath
+public class ShowTime
 {
-    public void Path()
+    //the final results to be returned
+    List<string> FinalGens = new List<string>();
+    public static string PasswordGeneration(int complexity, int count, bool isRandomized)
     {
-        //retrieve the values from above and create a tree to determine the generation path
-        //look into get set
-      
 
     }
+
 };
 
-/*public class Generation
-{
-    public string Results(int level, bool is_r, int count)
-    {
-
-    }
-}*/
-//maybe move this to seperate file
 namespace WordSpace 
 {
     public class GetWord 

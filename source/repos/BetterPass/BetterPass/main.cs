@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class GetComplexity 
 {
     public static int difficulty_selection;
-    public int Main() 
+    public static int Main() 
     {
         Console.WriteLine(
             "Select a complexity level, 1-4. 1 will meet requirements of most sites."
@@ -86,23 +86,7 @@ public class HowMany
     }
 };
 
-//determine the generation path
-public class ChoosePath
-{
-   
-    public void FuncLoop(int count, int complexity, bool isRandom)
-    {
-        for(int i = 0; i < count; i++)
-        {
-            //Retrieve the yesno value and generate
-            //pass in complexity and yesno, count is already dealt with here
-            
 
-        }
-
-    }
- 
-};
 //Used for symbols and any additional letters to meet the complexity requirements
 namespace Fluff
 {
@@ -162,6 +146,23 @@ namespace Fluff
 
 //if "randomly assembled" is chosen, all of these elements get randomly
 //strung together instead of a simple append
+//determine the generation path
+public class ChoosePath
+{
+
+    public void FuncLoop(int count, int complexity, bool isRandom)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            //pass in complexity and isRandom, count is already dealt with here
+            //ShowTime.PasswordGeneration(complexity, isRandom);
+            Console.WriteLine("working");
+
+        }
+
+    }
+
+};
 public class ShowTime
 {
     //the final results to be returned

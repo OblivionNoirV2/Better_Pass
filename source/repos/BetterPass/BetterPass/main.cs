@@ -82,7 +82,8 @@ public class HowMany
         Console.WriteLine($"Creating {HowManyP} {(HowManyP == 1 ? "password": "passwords")}...");
 
         ChoosePath path_ = new ChoosePath();
-        path_.FuncLoop(HowManyP, GetComplexity.difficulty_selection, WantsRandom);
+        //discard breaks the need for async
+        _ = path_.FuncLoop(HowManyP, GetComplexity.difficulty_selection, WantsRandom);
     }
 };
 
@@ -163,18 +164,26 @@ namespace Fluff
 
 public class ChoosePath
 {
-    public void FuncLoop(int count, int complexity, bool isRandom)
+    public async Task FuncLoop(int count, int complexity, bool isRandom)
     {
         for (int i = 0; i < count; i++)
         {   //bless you, ChatGPT.
-            int switch_args = (complexity) * 2 + (isRandom ? 1 : 0); 
-            /*each 2 cases represents a pair. ex 1 and 2 are complexity 1
+            int switch_args = (complexity) * 2 + (isRandom ? 1 : 0);
+            /*each 2 cases represents a pair. ex 2 and 3 are complexity 1
             /with false and true random, respecitvely*/
+            GetWord work = new GetWord();
+            string final_gen = null;
             switch (switch_args)
             {   
                 case 2: //C1, random F
-              
-                break;
+                    while(final_gen.Length < 8)
+                    {
+                        await work.WordFetch();
+
+
+                    }
+                    
+                    break;
                 case 3: //C1, random T
 
                 break;
@@ -194,7 +203,7 @@ public class ChoosePath
 
                 break;
                 case 9://C4, random T
-
+                    
                 break;
                 default:
                     Console.WriteLine("Shouldn't be here");
@@ -210,7 +219,7 @@ public class ChoosePath
     public static string PasswordGeneration(int complexity, bool isRandom)
     {
        List<string> FinalGens = new List<string>();
-       GetWord work = new GetWord(); 
+       
 
     }
 };*/

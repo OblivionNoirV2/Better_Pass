@@ -3,8 +3,8 @@
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Collections.Generic;
-using WordSpace;
 using Fluff;
+using System.Runtime.Remoting.Messaging;
 
 public class GetComplexity 
 {
@@ -24,7 +24,6 @@ public class GetComplexity
 
             Console.WriteLine("Please enter a valid response");
         };
-      
         RandomAssembly choice = new RandomAssembly();
         choice.RA();
         return difficulty_selection;
@@ -56,7 +55,7 @@ public class RandomAssembly
         {
             WantsRandom = false;
         }
-        //this might need to be async
+
         HowMany count = new HowMany();
         count.HM(WantsRandom);
 
@@ -83,7 +82,7 @@ public class HowMany
 
         ChoosePath path_ = new ChoosePath();
         //discard breaks the need for async
-        _ = path_.FuncLoop(HowManyP, GetComplexity.difficulty_selection, WantsRandom);
+        path_.FuncLoop(HowManyP, GetComplexity.difficulty_selection, WantsRandom);
     }
 };
 
@@ -164,26 +163,27 @@ namespace Fluff
 
 public class ChoosePath
 {//each generation must wait for the api call to finish before continuing
-    public async Task FuncLoop(int count, int complexity, bool isRandom)
-    {
-        for (int i = 0; i < count; i++)
-        {   //bless you, ChatGPT.
+    public void FuncLoop(int count, int complexity, bool isRandom)
+    {   
+        
+      
             int switch_args = (complexity) * 2 + (isRandom ? 1 : 0);
             /*each 2 cases represents a pair. ex 2 and 3 are complexity 1
             /with false and true random, respecitvely*/
-            GetWord work = new GetWord();
-            string final_gen = null;
+    
             switch (switch_args)
             {   
                 case 2: //C1, random F
-                    while(final_gen.Length < 8)
-                    {
-                        await work.WordFetch();
+
+                //getting stuck here
+                GetWord word_ = new GetWord();
+                Console.WriteLine("getting word");    
+                var fetched_word = word_.WordFetch().Result;
+                Console.WriteLine(fetched_word);
+              
 
 
-                    }
-                    
-                    break;
+                break;
                 case 3: //C1, random T
 
                 break;
@@ -208,47 +208,40 @@ public class ChoosePath
                 default:
                     Console.WriteLine("Shouldn't be here");
                 break;
-            };
+            
         }
     }
 };
-/*public class ShowTime
-{
-    //the final results to be returned
 
-    public static string PasswordGeneration(int complexity, bool isRandom)
+
+
+public class GetWord
+{
+
+    public async Task<string> WordFetch()
     {
-       List<string> FinalGens = new List<string>();
+
+        var client = new HttpClient();
+        //Fetch the API key from my local machine
+        string api_key = Environment.GetEnvironmentVariable("API_KEY_BP");
+        client.DefaultRequestHeaders.Add("X-Api-Key", api_key);
+        var response = await client.GetAsync("https://api.api-ninjas.com/v1/randomword");
+
+        if (response.IsSuccessStatusCode)
+        {
+            //wait for the async call to finish, then return response
+            
+            return await response.Content.ReadAsStringAsync();
+
+        }
+        else
+        {
+
+            Console.WriteLine($"Error: {(int)response.StatusCode} {response.ReasonPhrase}");
+            return null;
+        };
        
 
     }
-};*/
-
-namespace WordSpace 
-{
-    public class GetWord 
-    {
-  
-        public async Task WordFetch()
-        {
-
-            var client = new HttpClient();
-            //Fetch the API key from my local machine
-            string api_key = Environment.GetEnvironmentVariable("API_KEY_BP");
-            client.DefaultRequestHeaders.Add("X-Api-Key", api_key);
-            var response = await client.GetAsync("https://api.api-ninjas.com/v1/randomword");
-
-            if (response.IsSuccessStatusCode) 
-            {
-                //wait for the async call to finish, then return response
-                var result = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(result);
-
-            } else 
-            {
-
-                Console.WriteLine($"Error: {(int)response.StatusCode} {response.ReasonPhrase}");
-            };
-        }
-    };
+   
 };

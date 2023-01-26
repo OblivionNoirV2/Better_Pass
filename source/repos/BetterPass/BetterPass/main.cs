@@ -3,7 +3,8 @@
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Collections.Generic;
-
+using WordSpace;
+using Fluff;
 
 public class GetComplexity 
 {
@@ -62,7 +63,6 @@ public class RandomAssembly
     }
 };
 //determine how many passwords should be generated
-
 public class HowMany
 {
     public int HowManyP;
@@ -92,17 +92,24 @@ namespace Fluff
 {
     public class FluffChild
     {   //random numbers to append onto the word(s), each 1 digit
-        public static void RandNum(int num_int_generations)
+        public static List<int> RandNums(int num_int_generations)
         {
+            List<int> generated_nums = new List<int>();
             Random rnd_num = new Random();
-            int num = rnd_num.Next(1, 10);
+            //int num = rnd_num.Next(1, 10);
             for (int i = 0; i < num_int_generations; i++) {
                 //limit generations to 1 digit
-                num = rnd_num.Next(1, 10);//retrieve this later
+                int num = rnd_num.Next(1, 10);
+                generated_nums.Add(num);
+                Console.WriteLine(num);
             };
+            //return the list from the loop
+            return generated_nums;
+        
         }
-        public static void RandAlph(int num_alph_generations)
+        public static List<char> RandAlph(int num_alph_generations)
         { 
+            List<char> generated_alphs = new List<char>();
             char[] alphabet = 
             {
                 'a', 'b', 'c', 'd', 'e',
@@ -116,11 +123,15 @@ namespace Fluff
             for (int i = 0; i < num_alph_generations; i++) { 
                 //get random value from alphabet
                 int alph_index = rnd_alph.Next(0, alphabet.Length);
-                char alph_char = alphabet[alph_index];//retrieve this later
-            }
+                char alph_char = alphabet[alph_index];
+                generated_alphs.Add(alph_char);
+                Console.WriteLine(alph_char);
+            };
+            return generated_alphs;
         }
-        public static void RandSym(int num_sym_generations)
+        public static List<char> RandSym(int num_sym_generations)
         {
+            List<char> generated_syms = new List<char>();
 
             char[] symbols =
             {  '~', '`', '!', '@', '#', '$', '%', '^', '&',
@@ -132,8 +143,11 @@ namespace Fluff
             for (int i = 0; i < num_sym_generations; i++)
             {
                 int sym_index = rnd_sym.Next(0, symbols.Length);
-                char sym_char = symbols[sym_index];//retrieve later
+                char sym_char = symbols[sym_index];
+                generated_syms.Add(sym_char);
+                Console.WriteLine(sym_char);
             }
+            return generated_syms;
         }
     };
 };
@@ -142,44 +156,71 @@ namespace Fluff
 //1 = 1 word, 8 characters, 1 uppercase, rest lowercase, 1 int, 1 special char
 //2 = 1 word, 10 characters, 2 uppercase, rest lower, 2 int, 2 special char
 //3 = 2 words, 12 char, 3 uppercase, rest lower, 3 int, 3 special char 
-//4 2 words, 14 char, 4 uppercase, rest lower, 4 int, 4 special char
+//4 = 2 words, 14 char, 4 uppercase, rest lower, 4 int, 4 special char
 
 //if "randomly assembled" is chosen, all of these elements get randomly
 //strung together instead of a simple append
-//determine the generation path
+
 public class ChoosePath
 {
-
     public void FuncLoop(int count, int complexity, bool isRandom)
     {
         for (int i = 0; i < count; i++)
-        {
-            //pass in complexity and isRandom, count is already dealt with here
-            //ShowTime.PasswordGeneration(complexity, isRandom);
-            Console.WriteLine("working");
+        {   //bless you, ChatGPT.
+            int switch_args = (complexity) * 2 + (isRandom ? 1 : 0); 
+            /*each 2 cases represents a pair. ex 1 and 2 are complexity 1
+            /with false and true random, respecitvely*/
+            switch (switch_args)
+            {   
+                case 2: //C1, random F
+              
+                break;
+                case 3: //C1, random T
 
+                break;
+                case 4: //C2, random F
+
+                break;
+                case 5: //C2, random T
+
+                break;
+                case 6: //C3, random F
+
+                break;
+                case 7: //C3, random T
+
+                break;
+                case 8: //C4, random F
+
+                break;
+                case 9://C4, random T
+
+                break;
+                default:
+                    Console.WriteLine("Shouldn't be here");
+                break;
+            };
         }
-
     }
-
 };
-public class ShowTime
+/*public class ShowTime
 {
     //the final results to be returned
-    List<string> FinalGens = new List<string>();
+
     public static string PasswordGeneration(int complexity, bool isRandom)
     {
+       List<string> FinalGens = new List<string>();
+       GetWord work = new GetWord(); 
 
     }
-
-};
+};*/
 
 namespace WordSpace 
 {
     public class GetWord 
     {
   
-        static async Task WordFetch()
+        public async Task WordFetch()
         {
 
             var client = new HttpClient();

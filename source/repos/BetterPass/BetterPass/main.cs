@@ -69,14 +69,14 @@ public class HowMany
     public void HM(bool WantsRandom)
     {
         Console.WriteLine(
-            "How many generations should it make? Limit of 100"
+            "How many generations should it make? Limit of 10"
             );
         while (!int.TryParse(Console.ReadLine(),
             out HowManyP)
-            || HowManyP > 100
+            || HowManyP > 10
             || HowManyP < 0)
         {
-            Console.WriteLine("Please enter a value between 1 and 100");
+            Console.WriteLine("Please enter a value between 1 and 10");
         };
         
         Console.WriteLine($"Creating {HowManyP} {(HowManyP == 1 ? "password": "passwords")}...");
@@ -163,7 +163,7 @@ namespace Fluff
 //strung together instead of a simple append
 
 public class ChoosePath
-{
+{//each generation must wait for the api call to finish before continuing
     public async Task FuncLoop(int count, int complexity, bool isRandom)
     {
         for (int i = 0; i < count; i++)

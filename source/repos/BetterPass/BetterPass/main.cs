@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using Fluff;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography.X509Certificates;
+using System.Linq;
 
 public class GetComplexity 
 {
@@ -167,7 +168,7 @@ public class ChoosePath
         
         ChoosePath path = new ChoosePath();
         string converted_word = path.MakeReadable();
-        List <string>final_gens = new List<string>();
+        //List <string>final_gens = new List<string>();
         List<string> pass_components = new List<string>();
 
          //set up words
@@ -236,17 +237,28 @@ public class ChoosePath
          {
              pass_components.Add(str2);
          }
-         //Check for minimum lengths, add filler (pick randomly from the 3) as needed
+        //Check for minimum lengths, add filler (pick randomly from the 3) as needed
 
-         //then concatonate, randomized if that was chosen
 
-         //then print it out and we're done! 
 
-         foreach(string z in pass_components)
-         {
-             Console.WriteLine(z);
+        //then concatonate, randomized if that was chosen
+        if (isRandom == true)
+        {
+            pass_components = pass_components.OrderBy(x => Guid.NewGuid()).ToList();
+            string random_test = "";
+            foreach(string item in pass_components)
+            {
+                random_test += item;
+            }
+            Console.WriteLine(random_test);
 
-         }
+        }
+        else
+        {
+            string test = string.Join("", pass_components);
+            Console.WriteLine(test);
+        }
+
         Console.WriteLine("Again? (y if yes)");
         string restart = Console.ReadLine();
         if (restart == "y")

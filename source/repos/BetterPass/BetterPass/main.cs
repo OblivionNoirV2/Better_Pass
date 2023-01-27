@@ -14,10 +14,17 @@ public class GetComplexity
     public static int Main() 
     {
         Console.WriteLine(
-            "Select a complexity level, 1-4. 1 will meet requirements of most sites."
+            "Select a complexity level, 1-4. I for info."
             );
         //take in the readline value, check for int...
-        while (!int.TryParse(Console.ReadLine(),
+        var reply = Console.ReadLine();
+        if (reply.ToUpper() == "I")
+        {
+            Console.WriteLine("1 = 1 word, min 8 characters, 1 uppercase, rest lowercase, 1 number, 1 special char\r\n2 = 1 word, min 12 characters, 2 uppercase, rest lower, 2 numbers, 2 special char\r\n3 = 2 words, min 14 char, 3 uppercase, rest lower, 3 numbers, 3 special char \r\n4 = 2 words, min 18 char, 4 uppercase, rest lower, 4 numbers, 4 special char\r\n");
+            Main();
+        }
+       
+        while (!int.TryParse(reply,
             out difficulty_selection)
             //then ensure it fits the range
             || difficulty_selection < 1

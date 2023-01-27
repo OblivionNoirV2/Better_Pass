@@ -1,1 +1,1 @@
-Gives you an original password(or many) to use that meets site criteria(customizable with level of complexity), with real words. One you can actually remember, not the scrambled mess a browser suggests. For obvious reasons, generations are not saved.
+Gives you an original password to use that meets site criteria(customizable with level of complexity), with real words. One you can actually remember, not the scrambled mess a browser suggests. (But you can make it randomized too, if you wish). For obvious reasons, generations are not saved.

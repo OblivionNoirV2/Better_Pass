@@ -8,6 +8,7 @@ using Fluff;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography.X509Certificates;
 using System.Linq;
+using Newtonsoft.Json.Bson;
 
 public class GetComplexity 
 {
@@ -163,7 +164,7 @@ public class ChoosePath
         return converted_word;
 
     }
-    public void FuncLoop(int complexity, bool isRandom)
+    public string FuncLoop(int complexity, bool isRandom)
     {
         
         ChoosePath path = new ChoosePath();
@@ -186,6 +187,16 @@ public class ChoosePath
              pass_components.Add(second_word);
                     
          }
+         //todo: account for more uppercase on higher tiers
+        switch (complexity)
+        {
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
          //set up numbers 
 
          List<int> generated_nums2 = new List<int>();
@@ -237,7 +248,6 @@ public class ChoosePath
          {
              pass_components.Add(str2);
          }
-        //Check for minimum lengths, add filler (pick randomly from the 3) as needed
 
 
 
@@ -250,15 +260,64 @@ public class ChoosePath
             {
                 random_test += item;
             }
-            Console.WriteLine(random_test);
+
+            return random_test;
+
 
         }
         else
         {
             string test = string.Join("", pass_components);
-            Console.WriteLine(test);
+            //Console.WriteLine(test);
+            return test;
+           
+        }
+       
+    }
+};
+
+//Check for minimum lengths, add filler (pick randomly from the 3) as needed
+public class Filler
+{
+    private static List<int> add_nums;
+    Random addstuff = new Random();
+    public static string AddFiller()
+    {
+        Filler newfiller = new Filler();
+        int add_choice = newfiller.addstuff.Next(1, 4);
+        //first determine the rules to go by
+        switch (GetComplexity.difficulty_selection)
+        {
+
+        }
+        //then add random bits accordingly
+        switch (add_choice)
+        {
+            case 1: //num
+                add_nums = FluffChild.RandNums(1);
+                List<string> num2str2 = add_nums.ConvertAll(y => (string)(y + ""));
+                foreach (string str3 in num2str2)
+                {
+                    //append to the existing string
+
+                    
+
+                }
+                break;
+            case 2: //alph
+                break;
+            case 3: //sym
+                break;
+
         }
 
+    }
+}
+
+public class Finish
+{
+    public static void End()
+    {
         Console.WriteLine("Again? (y if yes)");
         string restart = Console.ReadLine();
         if (restart == "y")
@@ -268,10 +327,11 @@ public class ChoosePath
         else
         {
             Environment.Exit(0);
-        }   
-    }
-};
+        }
 
+    }
+
+}
 
 
 public class GetWord

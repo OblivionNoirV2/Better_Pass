@@ -178,8 +178,6 @@ public class ChoosePath
     public void FuncLoop(int count, int complexity, bool isRandom)
     {
 
-
-
        // random doesn't need its own case. A couple simple ifs will suffice
         bool is_complete = false;
         ChoosePath path = new ChoosePath();
@@ -187,47 +185,20 @@ public class ChoosePath
         string final_gen = null;
         for (int i = 0; i < count; i++)
         {
-            switch (complexity)
+        
+           while(is_complete == false)
             {
-               case 1: //C1, random F
-                    while(is_complete == false)
-                    {
-                        //todo: the majority of this can be its own function, so the changes per case are minimal
-                        Console.WriteLine(converted_word);
-                        //make first or last letter uppercase
-                        //todo make it 50/50 chance for either
-                        converted_word = char.ToUpper(converted_word[0]) + converted_word.Substring(1);
-                        Console.WriteLine(converted_word);
-
-                   
-                        is_complete= true; 
+                Console.WriteLine(converted_word);
+                //make first or last letter uppercase
+                //todo make it 50/50 chance for either
+                converted_word = char.ToUpper(converted_word[0]) + converted_word.Substring(1);
+                Console.WriteLine(converted_word);
 
 
-                    }
-
-              
-
-
-
-                    break;
-                case 2: 
-
-                    break;
-                case 3: 
-
-                    break;
-                case 4: 
-
-                    break;
-
-                default:
-                    Console.WriteLine("Shouldn't be here");
-                    break;
+                is_complete = true;
 
             }
-
-
-
+     
         }
            
     }

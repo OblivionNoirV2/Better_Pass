@@ -178,25 +178,24 @@ public class ChoosePath
     public void FuncLoop(int count, int complexity, bool isRandom)
     {
 
-        /*each 2 cases represents a pair. ex 2 and 3 are complexity 1
-    with false and true random, respecitvely*/
-        int switch_args = (complexity) * 2 + (isRandom ? 1 : 0);
 
-       
+
+       // random doesn't need its own case. A couple simple ifs will suffice
         bool is_complete = false;
         ChoosePath path = new ChoosePath();
         string converted_word = path.MakeReadable();
         string final_gen = null;
         for (int i = 0; i < count; i++)
         {
-            switch (switch_args)
+            switch (complexity)
             {
-               case 2: //C1, random F
+               case 1: //C1, random F
                     while(is_complete == false)
                     {
                         //todo: the majority of this can be its own function, so the changes per case are minimal
                         Console.WriteLine(converted_word);
-                        //make first letter uppercase
+                        //make first or last letter uppercase
+                        //todo make it 50/50 chance for either
                         converted_word = char.ToUpper(converted_word[0]) + converted_word.Substring(1);
                         Console.WriteLine(converted_word);
 
@@ -211,27 +210,16 @@ public class ChoosePath
 
 
                     break;
-                case 3: //C1, random T
+                case 2: 
 
                     break;
-                case 4: //C2, random F
+                case 3: 
 
                     break;
-                case 5: //C2, random T
+                case 4: 
 
                     break;
-                case 6: //C3, random F
 
-                    break;
-                case 7: //C3, random T
-
-                    break;
-                case 8: //C4, random F
-
-                    break;
-                case 9://C4, random T
-
-                    break;
                 default:
                     Console.WriteLine("Shouldn't be here");
                     break;

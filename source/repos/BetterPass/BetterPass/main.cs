@@ -3,8 +3,10 @@
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using Fluff;
 using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography.X509Certificates;
 
 public class GetComplexity 
 {
@@ -151,65 +153,95 @@ namespace Fluff
         }
     };
 };
-//if characters are not long enough with the words, append random letters from the alphabet 
-//if too long, remove the excess chars
-//1 = 1 word, 8 characters, 1 uppercase, rest lowercase, 1 int, 1 special char
-//2 = 1 word, 10 characters, 2 uppercase, rest lower, 2 int, 2 special char
-//3 = 2 words, 12 char, 3 uppercase, rest lower, 3 int, 3 special char 
-//4 = 2 words, 14 char, 4 uppercase, rest lower, 4 int, 4 special char
 
-//if "randomly assembled" is chosen, all of these elements get randomly
-//strung together instead of a simple append
 
 public class ChoosePath
 {//each generation must wait for the api call to finish before continuing
-    public void FuncLoop(int count, int complexity, bool isRandom)
-    {   
-        
-      
-            int switch_args = (complexity) * 2 + (isRandom ? 1 : 0);
-            /*each 2 cases represents a pair. ex 2 and 3 are complexity 1
-            /with false and true random, respecitvely*/
-    
-            switch (switch_args)
-            {   
-                case 2: //C1, random F
 
-                //getting stuck here
-                GetWord word_ = new GetWord();
-                Console.WriteLine("getting word");    
-                var fetched_word = word_.WordFetch().Result;
-                Console.WriteLine(fetched_word);
+    public string MakeReadable()
+    {
+        GetWord word_ = new GetWord();
+        //generate initial word, then do a second if the complexity requires it
+        string fetched_word = word_.WordFetch().Result;
+        //First check that it's at least 4 characters for quality assurance purposes 
+        while (fetched_word.Length < 4)
+        {
+            MakeReadable();
+        }
+        //convert to readable format
+        JObject jsonObject = JObject.Parse(fetched_word);
+        string converted_word = (string)jsonObject["word"];
+
+        return converted_word;
+
+    }
+    public void FuncLoop(int count, int complexity, bool isRandom)
+    {
+
+        /*each 2 cases represents a pair. ex 2 and 3 are complexity 1
+    with false and true random, respecitvely*/
+        int switch_args = (complexity) * 2 + (isRandom ? 1 : 0);
+
+       
+        bool is_complete = false;
+        ChoosePath path = new ChoosePath();
+        string converted_word = path.MakeReadable();
+        string final_gen = null;
+        for (int i = 0; i < count; i++)
+        {
+            switch (switch_args)
+            {
+               case 2: //C1, random F
+                    while(is_complete == false)
+                    {
+                        //todo: the majority of this can be its own function, so the changes per case are minimal
+                        Console.WriteLine(converted_word);
+                        //make first letter uppercase
+                        converted_word = char.ToUpper(converted_word[0]) + converted_word.Substring(1);
+                        Console.WriteLine(converted_word);
+
+                   
+                        is_complete= true; 
+
+
+                    }
+
               
 
 
-                break;
+
+                    break;
                 case 3: //C1, random T
 
-                break;
+                    break;
                 case 4: //C2, random F
 
-                break;
+                    break;
                 case 5: //C2, random T
 
-                break;
+                    break;
                 case 6: //C3, random F
 
-                break;
+                    break;
                 case 7: //C3, random T
 
-                break;
+                    break;
                 case 8: //C4, random F
 
-                break;
+                    break;
                 case 9://C4, random T
-                    
-                break;
+
+                    break;
                 default:
                     Console.WriteLine("Shouldn't be here");
-                break;
-            
+                    break;
+
+            }
+
+
+
         }
+           
     }
 };
 

@@ -5,8 +5,6 @@ using System.Net.Http;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Fluff;
-using System.Runtime.Remoting.Messaging;
-using System.Security.Cryptography.X509Certificates;
 using System.Linq;
 using Newtonsoft.Json.Bson;
 
@@ -34,6 +32,7 @@ public class GetComplexity
         {
 
             Console.WriteLine("Please enter a valid response");
+            reply = Console.ReadLine();
         };
         RandomAssembly choice = new RandomAssembly();
         choice.RA();
@@ -252,6 +251,7 @@ public class ChoosePath
 
 
         //then concatonate, randomized if that was chosen
+        Finish finish = new Finish();
         if (isRandom == true)
         {
             pass_components = pass_components.OrderBy(x => Guid.NewGuid()).ToList();
@@ -260,7 +260,8 @@ public class ChoosePath
             {
                 random_test += item;
             }
-
+            Console.WriteLine(random_test);
+            finish.End();
             return random_test;
 
 
@@ -268,16 +269,18 @@ public class ChoosePath
         else
         {
             string test = string.Join("", pass_components);
-            //Console.WriteLine(test);
+            Console.WriteLine(test);
+            finish.End();
             return test;
            
         }
-       
     }
+
+   
 };
 
-//Check for minimum lengths, add filler (pick randomly from the 3) as needed
-public class Filler
+
+/*public class Filler
 {
     private static List<int> add_nums;
     Random addstuff = new Random();
@@ -312,11 +315,11 @@ public class Filler
         }
 
     }
-}
+}*/
 
 public class Finish
 {
-    public static void End()
+    public void End()
     {
         Console.WriteLine("Again? (y if yes)");
         string restart = Console.ReadLine();
@@ -367,7 +370,7 @@ public class GetWord
         }
         catch (TaskCanceledException) 
         {
-            Console.WriteLine("Sorry, the request times out");
+            Console.WriteLine("Sorry, the request timed out");
             return null;
 
         }

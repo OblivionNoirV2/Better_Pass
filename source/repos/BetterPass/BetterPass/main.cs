@@ -20,7 +20,7 @@ public class GetComplexity
         var reply = Console.ReadLine();
         if (reply.ToUpper() == "I")
         {
-            Console.WriteLine("1 = 1 word, min 8 characters, 1 uppercase, rest lowercase, 1 number, 1 special char\r\n2 = 1 word, min 12 characters, 2 uppercase, rest lower, 2 numbers, 2 special char\r\n3 = 2 words, min 14 char, 3 uppercase, rest lower, 3 numbers, 3 special char \r\n4 = 2 words, min 18 char, 4 uppercase, rest lower, 4 numbers, 4 special char\r\n");
+            Console.WriteLine("1 = 1 word, min 8 characters, 1 uppercase, rest lowercase, 1 number, 1 special char\r\n2 = 1 word, min 12 characters, 2 uppercase, rest lower, 2 numbers, 2 special char\r\n3 = 2 words, min 14 char, 2 uppercase per word, rest lower, 3 numbers, 3 special char \r\n4 = 2 words, min 18 char, 3 uppercase per word, rest lower, 4 numbers, 4 special char\r\n");
             Main();
         }
        
@@ -152,7 +152,7 @@ public class ChoosePath
         //generate initial word, then do a second if the complexity requires it
         string fetched_word = word_.WordFetch().Result;
         //First check that it's at least 4 characters for quality assurance purposes 
-        while (fetched_word.Length < 4)
+        while (fetched_word.Length < 5)
         {
             path1.MakeReadable();
         }
@@ -172,33 +172,61 @@ public class ChoosePath
         List<string> pass_components = new List<string>();
 
          //set up words
-         converted_word = converted_word.Substring(0, converted_word.Length - 1) + 
-             char.ToUpper(converted_word[converted_word.Length - 1]);
-
-         pass_components.Add(converted_word);
-         
-         if (complexity > 2)
-         {
-             string second_word = path.MakeReadable();
-             second_word = second_word.Substring(0, second_word.Length - 1) + 
-                 char.ToUpper(second_word[second_word.Length - 1]); 
-
-             pass_components.Add(second_word);
-                    
-         }
-         //todo: account for more uppercase on higher tiers
+        //add uppercase 
         switch (complexity)
         {
+            case 1:
+                converted_word = converted_word.Substring(0, converted_word.Length - 1) +
+                char.ToUpper(converted_word[converted_word.Length - 1]);
+                break;
+
             case 2:
+                converted_word = converted_word.Substring(0, converted_word.Length - 1) +
+                char.ToUpper(converted_word[converted_word.Length - 1]) +
+                char.ToUpper(converted_word[converted_word.Length - 2]);
                 break;
             case 3:
+                converted_word = converted_word.Substring(0, converted_word.Length - 1) +
+                char.ToUpper(converted_word[converted_word.Length - 1]) +
+                char.ToUpper(converted_word[converted_word.Length - 2]);
                 break;
             case 4:
+                converted_word = converted_word.Substring(0, converted_word.Length - 1) +
+                char.ToUpper(converted_word[converted_word.Length - 1]) +
+                char.ToUpper(converted_word[converted_word.Length - 2]) +
+                char.ToUpper(converted_word[3]);
                 break;
         }
-         //set up numbers 
 
-         List<int> generated_nums2 = new List<int>();
+        pass_components.Add(converted_word);
+
+        string second_word = path.MakeReadable();
+        second_word = second_word.Remove(second_word.Length - 1);
+        if (complexity > 2)
+        {
+            string temp = "";
+            if (complexity == 2 || complexity == 3)
+            {
+                temp += char.ToUpper(second_word[1]);
+                temp += char.ToUpper(second_word[2]);
+            }
+            else if (complexity == 1)
+            {
+                temp += char.ToUpper(second_word[second_word.Length - 1]);
+            }
+            else if (complexity == 4)
+            {
+                temp += char.ToUpper(second_word[1]);
+                temp += char.ToUpper(second_word[2]);
+                temp += char.ToUpper(second_word[3]);
+            }
+            second_word += temp;
+            pass_components.Add(second_word);
+        }
+
+        //set up numbers 
+
+        List<int> generated_nums2 = new List<int>();
                     
          switch(complexity)
          {
@@ -291,7 +319,17 @@ public class ChoosePath
         //first determine the rules to go by
         switch (GetComplexity.difficulty_selection)
         {
-
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            default:
+                Console.WriteLine("soemthing went wrong");
+                break;
         }
         //then add random bits accordingly
         switch (add_choice)

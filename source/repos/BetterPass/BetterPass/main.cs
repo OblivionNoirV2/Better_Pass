@@ -171,31 +171,28 @@ public class ChoosePath
         //List <string>final_gens = new List<string>();
         List<string> pass_components = new List<string>();
 
-         //set up words
+        //set up words
         //add uppercase 
-        switch (complexity)
+        if (complexity == 1)
         {
-            case 1:
-                converted_word = converted_word.Substring(0, converted_word.Length - 1) +
-                char.ToUpper(converted_word[converted_word.Length - 1]);
-                break;
+            converted_word = converted_word.Substring(0, converted_word.Length - 1) +
+            char.ToUpper(converted_word[converted_word.Length - 1]);
 
-            case 2:
-                converted_word = converted_word.Substring(0, converted_word.Length - 1) +
-                char.ToUpper(converted_word[converted_word.Length - 1]) +
-                char.ToUpper(converted_word[converted_word.Length - 2]);
-                break;
-            case 3:
-                converted_word = converted_word.Substring(0, converted_word.Length - 1) +
-                char.ToUpper(converted_word[converted_word.Length - 1]) +
-                char.ToUpper(converted_word[converted_word.Length - 2]);
-                break;
-            case 4:
-                converted_word = converted_word.Substring(0, converted_word.Length - 1) +
-                char.ToUpper(converted_word[converted_word.Length - 1]) +
-                char.ToUpper(converted_word[converted_word.Length - 2]) +
-                char.ToUpper(converted_word[3]);
-                break;
+        }
+        else if (complexity == 2 || complexity == 3)
+        {
+            converted_word = converted_word.Substring(0, converted_word.Length - 1) +
+            char.ToUpper(converted_word[converted_word.Length - 1]) +
+            char.ToUpper(converted_word[converted_word.Length - 2]);
+
+        }
+        else if (complexity == 4)
+        {
+            converted_word = converted_word.Substring(0, converted_word.Length - 1) +
+            char.ToUpper(converted_word[converted_word.Length - 1]) +
+            char.ToUpper(converted_word[converted_word.Length - 2]) +
+            char.ToUpper(converted_word[3]);
+
         }
 
         pass_components.Add(converted_word);

@@ -8,10 +8,10 @@ using Fluff;
 using System.Linq;
 using Newtonsoft.Json.Bson;
 
-public class GetComplexity 
+public class GetComplexity
 {
     public static int difficulty_selection;
-    public static int Main() 
+    public static int Main()
     {
         Console.WriteLine(
             "Select a complexity level, 1-4. I for info."
@@ -23,12 +23,12 @@ public class GetComplexity
             Console.WriteLine("1 = 1 word, min 8 characters, 1 uppercase, rest lowercase, 1 number, 1 special char\r\n2 = 1 word, min 12 characters, 2 uppercase, rest lower, 2 numbers, 2 special char\r\n3 = 2 words, min 14 char, 2 uppercase per word, rest lower, 3 numbers, 3 special char \r\n4 = 2 words, min 18 char, 3 uppercase per word, rest lower, 4 numbers, 4 special char\r\n");
             Main();
         }
-       
+
         while (!int.TryParse(reply,
             out difficulty_selection)
             //then ensure it fits the range
             || difficulty_selection < 1
-            || difficulty_selection > 4) 
+            || difficulty_selection > 4)
         {
 
             Console.WriteLine("Please enter a valid response");
@@ -49,14 +49,14 @@ public class RandomAssembly
         Console.WriteLine(
             "Do you want the order of the password components to be randomized? Type 'y' or 'n'"
             );
-        while (!char.TryParse(Console.ReadLine(), 
+        while (!char.TryParse(Console.ReadLine(),
             out yesno)
             || yesno != 'y'
             && yesno != 'n')
         {
             Console.WriteLine("Please enter a valid response");
         };
-       
+
         if (yesno == 'y')
         {
             WantsRandom = true;
@@ -84,31 +84,33 @@ namespace Fluff
         public static List<int> RandNums(int num_int_generations)
         {
             List<int> generated_nums = new List<int>();
-            
-            for (int i = 0; i < num_int_generations; i++) {
+
+            for (int i = 0; i < num_int_generations; i++)
+            {
                 //limit generations to 1 digit
                 int num = rnd_num.Next(1, 10);
                 generated_nums.Add(num);
             };
             //return the list from the loop
             return generated_nums;
-        
+
         }
         static readonly Random rnd_alph = new Random();
         public static List<char> RandAlph(int num_alph_generations)
-        { 
+        {
             List<char> generated_alphs = new List<char>();
-            char[] alphabet = 
+            char[] alphabet =
             {
                 'a', 'b', 'c', 'd', 'e',
                 'f', 'g', 'h', 'i', 'j',
                 'k', 'l', 'm', 'n', 'o',
                 'p', 'q', 'r', 's', 't',
-                'u', 'v', 'w', 'x', 'y', 'z' 
+                'u', 'v', 'w', 'x', 'y', 'z'
             };
-            
-           
-            for (int i = 0; i < num_alph_generations; i++) { 
+
+
+            for (int i = 0; i < num_alph_generations; i++)
+            {
                 //get random value from alphabet
                 int alph_index = rnd_alph.Next(0, alphabet.Length);
                 char alph_char = alphabet[alph_index];
@@ -128,13 +130,13 @@ namespace Fluff
                 '}', ']', '|', ':', ';', '"', '<' , '>', '.',
                 '?', '/'
             };
-            
+
             for (int i = 0; i < num_sym_generations; i++)
             {
                 int sym_index = rnd_sym.Next(0, symbols.Length);
                 char sym_char = symbols[sym_index];
                 generated_syms.Add(sym_char);
-                
+
             }
             return generated_syms;
         }
@@ -165,7 +167,7 @@ public class ChoosePath
     }
     public string FuncLoop(int complexity, bool isRandom)
     {
-        
+
         ChoosePath path = new ChoosePath();
         string converted_word = path.MakeReadable();
         //List <string>final_gens = new List<string>();
@@ -224,69 +226,71 @@ public class ChoosePath
         //set up numbers 
 
         List<int> generated_nums2 = new List<int>();
-                    
-         switch(complexity)
-         {
-             case 1:
-                 generated_nums2 = FluffChild.RandNums(1);
-             break;
-                 case 2:
-                 generated_nums2 = FluffChild.RandNums(2);
-             break;
-                 case 3:
-                 generated_nums2 = FluffChild.RandNums(3);
-             break;
-                 case 4:
-                 generated_nums2 = FluffChild.RandNums(4);
-             break;
-         }
-         //then convert to strings and append to pass_components
-         List<string> num2str = generated_nums2.ConvertAll(x => (string)(x + ""));
-         foreach (string str in num2str)
-         {
-             pass_components.Add(str);
-         }
 
-                //set up symbols
+        switch (complexity)
+        {
+            case 1:
+                generated_nums2 = FluffChild.RandNums(1);
+                break;
+            case 2:
+                generated_nums2 = FluffChild.RandNums(2);
+                break;
+            case 3:
+                generated_nums2 = FluffChild.RandNums(3);
+                break;
+            case 4:
+                generated_nums2 = FluffChild.RandNums(4);
+                break;
+        }
+        //then convert to strings and append to pass_components
+        List<string> num2str = generated_nums2.ConvertAll(x => (string)(x + ""));
+        foreach (string str in num2str)
+        {
+            pass_components.Add(str);
+        }
 
-         List<char> generated_syms2 = new List<char>();
+        //set up symbols
 
-         switch (complexity)
-         {
-             case 1: 
-                 generated_syms2 = FluffChild.RandSym(1);
-             break;
-                 case 2:
-                 generated_syms2 = FluffChild.RandSym(2);
-             break;
-                 case 3:
-                 generated_syms2 = FluffChild.RandSym(3);
-             break;
-                 case 4:
-                 generated_syms2 = FluffChild.RandSym(4);
-             break;
-         }
-         //then convert to strings and append to pass_components
-         List<string> char2str = generated_syms2.ConvertAll(y => (string)(y + ""));
-         foreach(string str2 in char2str)
-         {
-             pass_components.Add(str2);
-         }
+        List<char> generated_syms2 = new List<char>();
+
+        switch (complexity)
+        {
+            case 1:
+                generated_syms2 = FluffChild.RandSym(1);
+                break;
+            case 2:
+                generated_syms2 = FluffChild.RandSym(2);
+                break;
+            case 3:
+                generated_syms2 = FluffChild.RandSym(3);
+                break;
+            case 4:
+                generated_syms2 = FluffChild.RandSym(4);
+                break;
+        }
+        //then convert to strings and append to pass_components
+        List<string> char2str = generated_syms2.ConvertAll(y => (string)(y + ""));
+        foreach (string str2 in char2str)
+        {
+            pass_components.Add(str2);
+        }
 
 
 
         //then concatonate, randomized if that was chosen
-        Finish finish = new Finish();
+        //Finish finish = new Finish();
+        Filler fl = new Filler();
         if (isRandom == true)
         {
             pass_components = pass_components.OrderBy(x => Guid.NewGuid()).ToList();
             string random_test = "";
-            foreach(string item in pass_components)
+            foreach (string item in pass_components)
             {
                 random_test += item;
             }
             Console.WriteLine(random_test);
-            finish.End();
+            //finish.End();
+            fl.AddFiller(random_test);
             return random_test;
 
 
@@ -295,21 +299,23 @@ public class ChoosePath
         {
             string test = string.Join("", pass_components);
             Console.WriteLine(test);
-            finish.End();
+            fl.AddFiller(test);
+            //finish.End();
             return test;
-           
+
         }
     }
 
-   
+
 };
 
 
-/*public class Filler
+public class Filler
 {
     private static List<int> add_nums;
     Random addstuff = new Random();
-    public static string AddFiller()
+    int min_length = 0;
+    public void AddFiller(string item)
     {
         Filler newfiller = new Filler();
         int add_choice = newfiller.addstuff.Next(1, 4);
@@ -317,6 +323,7 @@ public class ChoosePath
         switch (GetComplexity.difficulty_selection)
         {
             case 1:
+                min_length = 8;
                 break;
             case 2:
                 break;
@@ -329,28 +336,34 @@ public class ChoosePath
                 break;
         }
         //then add random bits accordingly
-        switch (add_choice)
+        while (item.Length < min_length)
         {
-            case 1: //num
-                add_nums = FluffChild.RandNums(1);
-                List<string> num2str2 = add_nums.ConvertAll(y => (string)(y + ""));
-                foreach (string str3 in num2str2)
-                {
-                    //append to the existing string
+            switch (add_choice)
+            {
+                case 1: //num
+                    add_nums = FluffChild.RandNums(1);
+                    List<string> num2str2 = add_nums.ConvertAll(y => (string)(y + ""));
+                    foreach (string str3 in num2str2)
+                    {
+                        //append to the existing string
+                        item += str3;
 
-                    
+                    }
+                    //this is the final value
+                    Console.WriteLine(item);
+                    break;
+                case 2: //alph
+                    break;
+                case 3: //sym
+                    break;
 
-                }
-                break;
-            case 2: //alph
-                break;
-            case 3: //sym
-                break;
+            }
 
         }
+       
 
     }
-}*/
+}
 
 public class Finish
 {
@@ -403,7 +416,7 @@ public class GetWord
 
 
         }
-        catch (TaskCanceledException) 
+        catch (TaskCanceledException)
         {
             Console.WriteLine("Sorry, the request timed out");
             return null;
@@ -411,5 +424,5 @@ public class GetWord
         }
 
     }
-   
+
 };

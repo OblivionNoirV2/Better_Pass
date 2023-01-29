@@ -20,7 +20,7 @@ public class GetComplexity
         var reply = Console.ReadLine();
         if (reply.ToUpper() == "I")
         {
-            Console.WriteLine("1 = 1 word, min 8 characters, 1 uppercase, rest lowercase, 1 number, 1 special char\r\n2 = 1 word, min 12 characters, 2 uppercase, rest lower, 2 numbers, 2 special char\r\n3 = 2 words, min 14 char, 2 uppercase per word, rest lower, 3 numbers, 3 special char \r\n4 = 2 words, min 18 char, 3 uppercase per word, rest lower, 4 numbers, 4 special char\r\n");
+            Console.WriteLine("1 = 1 word, min 8 characters, 1 uppercase, rest lowercase, 1 number, 1 special char\r\n2 = 1 word, min 10 characters, 2 uppercase, rest lower, 2 numbers, 2 special char\r\n3 = 2 words, min 12 char, 2 uppercase per word, rest lower, 3 numbers, 3 special char \r\n4 = 2 words, min 14 char, 3 uppercase per word, rest lower, 4 numbers, 4 special char\r\n");
             Main();
         }
 
@@ -309,7 +309,7 @@ public class ChoosePath
 
 };
 
-
+//add stuff if the result isn't long enough
 public class Filler
 {
     private static List<int> add_nums;
@@ -317,8 +317,8 @@ public class Filler
     int min_length = 0;
     public void AddFiller(string item)
     {
-        Filler newfiller = new Filler();
-        int add_choice = newfiller.addstuff.Next(1, 4);
+        Filler nf = new Filler();
+        int add_choice = nf.addstuff.Next(1, 4);
         //first determine the rules to go by
         switch (GetComplexity.difficulty_selection)
         {
@@ -326,10 +326,13 @@ public class Filler
                 min_length = 8;
                 break;
             case 2:
+                min_length = 10;
                 break;
             case 3:
+                min_length = 12;
                 break;
             case 4:
+                min_length = 14;
                 break;
             default:
                 Console.WriteLine("soemthing went wrong");
@@ -361,7 +364,6 @@ public class Filler
 
         }
        
-
     }
 }
 

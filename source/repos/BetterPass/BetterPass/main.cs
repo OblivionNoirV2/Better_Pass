@@ -115,7 +115,7 @@ namespace Fluff
                 int alph_index = rnd_alph.Next(0, alphabet.Length);
                 char alph_char = alphabet[alph_index];
                 generated_alphs.Add(alph_char);
-                Console.WriteLine(alph_char);
+                //Console.WriteLine(alph_char);
             };
             return generated_alphs;
         }
@@ -278,7 +278,6 @@ public class ChoosePath
 
 
         //then concatonate, randomized if that was chosen
-        //Finish finish = new Finish();
         Filler fl = new Filler();
         if (isRandom == true)
         {
@@ -288,8 +287,6 @@ public class ChoosePath
             {
                 random_test += item;
             }
-            Console.WriteLine(random_test);
-            //finish.End();
             fl.AddFiller(random_test);
             return random_test;
 
@@ -298,14 +295,11 @@ public class ChoosePath
         else
         {
             string test = string.Join("", pass_components);
-            Console.WriteLine(test);
             fl.AddFiller(test);
-            //finish.End();
             return test;
 
         }
     }
-
 
 };
 
@@ -313,12 +307,14 @@ public class ChoosePath
 public class Filler
 {
     private static List<int> add_nums;
-    Random addstuff = new Random();
+    private static List<char> add_alph;
+    private static List<char> add_sym;
+    readonly Random addstuff = new Random();
     int min_length = 0;
     public void AddFiller(string item)
     {
-        Filler nf = new Filler();
-        int add_choice = nf.addstuff.Next(1, 4);
+
+        int add_choice = addstuff.Next(1, 4);
         //first determine the rules to go by
         switch (GetComplexity.difficulty_selection)
         {
@@ -335,12 +331,13 @@ public class Filler
                 min_length = 14;
                 break;
             default:
-                Console.WriteLine("soemthing went wrong");
+                Console.WriteLine("something went wrong");
                 break;
         }
         //then add random bits accordingly
         while (item.Length < min_length)
         {
+   
             switch (add_choice)
             {
                 case 1: //num
@@ -352,20 +349,35 @@ public class Filler
                         item += str3;
 
                     }
-                    //this is the final value
-                    Console.WriteLine(item);
                     break;
                 case 2: //alph
+                    add_alph = FluffChild.RandAlph(1);
+                    List<string> char2str2 = add_alph.ConvertAll(z => (string)(z + ""));
+                    foreach (string str4 in char2str2)
+                    {
+                        item += str4;
+                    }
                     break;
                 case 3: //sym
+                    add_sym = FluffChild.RandSym(1);
+                    List<string> char2str3 = add_sym.ConvertAll(x => (string)(x + ""));
+                    foreach (string str5 in char2str3)
+                    {
+                        item += str5;
+        
+                    }
                     break;
-
             }
 
         }
-       
+
+        //Final output
+        Console.WriteLine(item);
+        Finish fn = new Finish();
+        fn.End();
+
     }
-}
+};
 
 public class Finish
 {
@@ -384,7 +396,7 @@ public class Finish
 
     }
 
-}
+};
 
 
 public class GetWord

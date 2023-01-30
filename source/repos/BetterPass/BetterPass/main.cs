@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Collections.Generic;
@@ -11,22 +11,23 @@ public class GetComplexity
 {
     public static int difficulty_selection;
     public static string api_key;
+    static readonly string filePath = Path.Combine(Directory.GetCurrentDirectory(), "api_key.txt");
     public static int Main()
 
     {
-        if (!File.Exists("api_key.txt"))
+      
+
+        if (!File.Exists(filePath))
         {
             Console.WriteLine("Enter API key: ");
-
             api_key = Console.ReadLine();
-            File.WriteAllText("api_key.txt", api_key);
-
+            File.WriteAllText(filePath, api_key);
         }
         else
         {
-            api_key = File.ReadAllText("api_key.txt");
+            api_key = File.ReadAllText(filePath);
         }
-      
+
         Console.WriteLine(
             "Select a complexity level, 1-4. I for info."
             );
@@ -404,3 +405,4 @@ public class GetWord
     }
 
 };
+

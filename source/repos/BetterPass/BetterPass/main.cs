@@ -7,12 +7,27 @@ using Newtonsoft.Json.Linq;
 using Fluff;
 using System.Linq;
 using Newtonsoft.Json.Bson;
+using System.IO;
 
 public class GetComplexity
 {
     public static int difficulty_selection;
+    public static string api_key;
     public static int Main()
+
     {
+        if (!File.Exists("api_key.txt"))
+        {
+            Console.WriteLine("Enter API key: ");
+            api_key = Console.ReadLine();
+            File.WriteAllText("api_key.txt", api_key);
+
+        }
+        else
+        {
+            api_key = File.ReadAllText("api_key.txt");
+        }
+      
         Console.WriteLine(
             "Select a complexity level, 1-4. I for info."
             );
@@ -401,7 +416,6 @@ public class Finish
 
 public class GetWord
 {
-
     public async Task<string> WordFetch()
     {
 
@@ -409,8 +423,7 @@ public class GetWord
         //Timeout after 10 seconds
         client.Timeout = TimeSpan.FromSeconds(10);
         //Fetch the API key from my local machine
-        string api_key = Environment.GetEnvironmentVariable("API_KEY_BP");
-        client.DefaultRequestHeaders.Add("X-Api-Key", api_key);
+        client.DefaultRequestHeaders.Add("X-Api-Key", GetComplexity.api_key);
         try
         {
             var response = await client.GetAsync("https://api.api-ninjas.com/v1/randomword");

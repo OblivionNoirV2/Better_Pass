@@ -164,7 +164,7 @@ public class ChoosePath
     {
         ChoosePath path1 = new ChoosePath();
         GetWord word_ = new GetWord();
-        //generate initial word, then do a second if the complexity requires it
+
         string fetched_word = word_.WordFetch().Result;
         //First check that it's at least 4 characters for quality assurance purposes 
         while (fetched_word.Length < 5)
@@ -182,64 +182,22 @@ public class ChoosePath
     {
 
         ChoosePath path = new ChoosePath();
-        string converted_word = path.MakeReadable();
-        converted_word.ToLower();
-
         List<string> pass_components = new List<string>();
-        char[] up_you_go = converted_word.ToCharArray();
-        //set up words
-        //add uppercase 
-  
-        if (complexity == 1)
-        {
-            up_you_go[converted_word.Length - 1] = char.ToUpper(up_you_go[converted_word.Length - 1]);
-      
-
-        }
-        else if (complexity == 2 || complexity == 3)
-        {
-
-            up_you_go[converted_word.Length - 1] = char.ToUpper(up_you_go[converted_word.Length - 1]);
-            up_you_go[converted_word.Length - 2] = char.ToUpper(up_you_go[converted_word.Length - 2]);
-
-        }
-        else if (complexity == 4)
-        {
-
-            up_you_go[converted_word.Length - 1] = char.ToUpper(up_you_go[converted_word.Length - 1]);
-            up_you_go[converted_word.Length - 2] = char.ToUpper(up_you_go[converted_word.Length - 2]);
-            up_you_go[converted_word.Length - 3] = char.ToUpper(up_you_go[converted_word.Length - 3]);
-
-        }
-
-        //converted_word += temp1;
-        converted_word = new string(up_you_go);
-        pass_components.Add(converted_word);
-        //need to REPLACE the ending characters, not append 
-        string second_word = path.MakeReadable();
-        char[] up_you_go2 = second_word.ToCharArray();
-        second_word.ToLower();
-        if (complexity > 2)
-        {
-          
-            if (complexity == 2 || complexity == 3)
+        //determine # of loops depending on complexity. >2 = 2 words
+        for (int i = 0; i < (complexity > 2 ? 2 : 1); i++)
+        {   //convert to a simple word and lowercase the whole word
+            string word = path.MakeReadable().ToLower();
+            //determine number of characters at the end to be uppercased
+            int endIndex = Math.Min(word.Length, (complexity % 4) + 1);
+            //make array of chars from the word 
+            char[] up_you_go = word.ToCharArray();
+            //uppercase according to the rules set previously
+            for (int j = 1; j <= endIndex; j++)
             {
-                up_you_go2[second_word.Length - 1] = char.ToUpper(up_you_go2[second_word.Length - 1]);
-                up_you_go2[second_word.Length - 2] = char.ToUpper(up_you_go2[second_word.Length - 2]);
-
+                up_you_go[word.Length - j] = char.ToUpper(up_you_go[word.Length - j]);
             }
-            else if (complexity == 1)
-            {
-                up_you_go2[second_word.Length - 1] = char.ToUpper(up_you_go2[second_word.Length - 1]);
-            }
-            else if (complexity == 4)
-            {
-                up_you_go2[second_word.Length - 1] = char.ToUpper(up_you_go2[second_word.Length - 1]);
-                up_you_go2[second_word.Length - 2] = char.ToUpper(up_you_go2[second_word.Length - 2]);
-                up_you_go2[second_word.Length - 3] = char.ToUpper(up_you_go2[second_word.Length - 3]);
-            }
-            second_word = new string(up_you_go2);
-            pass_components.Add(second_word);
+            word = new string(up_you_go);
+            pass_components.Add(word);
         }
 
         //set up numbers 

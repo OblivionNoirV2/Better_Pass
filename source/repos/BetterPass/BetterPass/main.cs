@@ -374,7 +374,7 @@ public class Finish
 
 };
 
-//Need to handle 502 bad gateway that happens sometimes
+
 public class GetWord
 {
     public async Task<string> WordFetch()

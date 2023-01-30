@@ -373,7 +373,7 @@ public class Finish
 
 };
 
-
+//Need to handle 502 bad gateway that happens sometimes
 public class GetWord
 {
     public async Task<string> WordFetch()
@@ -385,8 +385,7 @@ public class GetWord
             Timeout = TimeSpan.FromSeconds(10)
         };
         client.DefaultRequestHeaders.Add("X-Api-Key", GetComplexity.api_key);
-        try
-        {
+     
             var response = await client.GetAsync("https://api.api-ninjas.com/v1/randomword");
             if (response.IsSuccessStatusCode)
             {
@@ -398,19 +397,10 @@ public class GetWord
             else
             {
 
-                Console.WriteLine($"Something went wrong with the API: {(int)response.StatusCode} {response.ReasonPhrase}");
-                return null;
+                Console.WriteLine($"Something went wrong with the API: {(int)response.StatusCode}");
+                GetComplexity.Main();
+                return "retrying";
             }
-
-
-        }
-        catch (TaskCanceledException)
-        {
-            Console.WriteLine("Sorry, the request timed out");
-            return null;
-
-        }
-
     }
 
 };

@@ -1,12 +1,10 @@
 ﻿using System;
-//this enables async
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Fluff;
 using System.Linq;
-using Newtonsoft.Json.Bson;
 using System.IO;
 
 public class GetComplexity
@@ -84,7 +82,7 @@ public class RandomAssembly
         Console.WriteLine("Creating...");
 
         ChoosePath path_ = new ChoosePath();
-        //discard breaks the need for async
+
         path_.FuncLoop(GetComplexity.difficulty_selection, WantsRandom);
 
     }
@@ -130,7 +128,7 @@ namespace Fluff
                 int alph_index = rnd_alph.Next(0, alphabet.Length);
                 char alph_char = alphabet[alph_index];
                 generated_alphs.Add(alph_char);
-                //Console.WriteLine(alph_char);
+                
             };
             return generated_alphs;
         }
@@ -185,44 +183,44 @@ public class ChoosePath
 
         ChoosePath path = new ChoosePath();
         string converted_word = path.MakeReadable();
-        //List <string>final_gens = new List<string>();
         List<string> pass_components = new List<string>();
 
         //set up words
         //add uppercase 
+        string temp1 = "";
         if (complexity == 1)
         {
-            converted_word = converted_word.Substring(0, converted_word.Length - 1) +
-            char.ToUpper(converted_word[converted_word.Length - 1]);
+         
+            temp1 += char.ToUpper(converted_word[converted_word.Length - 1]);
 
         }
         else if (complexity == 2 || complexity == 3)
         {
-            converted_word = converted_word.Substring(0, converted_word.Length - 1) +
-            char.ToUpper(converted_word[converted_word.Length - 1]) +
-            char.ToUpper(converted_word[converted_word.Length - 2]);
+
+            temp1 += char.ToUpper(converted_word[converted_word.Length - 1]);
+            temp1 += char.ToUpper(converted_word[converted_word.Length - 2]);
 
         }
         else if (complexity == 4)
         {
-            converted_word = converted_word.Substring(0, converted_word.Length - 1) +
-            char.ToUpper(converted_word[converted_word.Length - 1]) +
-            char.ToUpper(converted_word[converted_word.Length - 2]) +
-            char.ToUpper(converted_word[3]);
+
+            temp1 += char.ToUpper(converted_word[converted_word.Length - 1]);
+            temp1 += char.ToUpper(converted_word[converted_word.Length - 2]);
+            temp1 += char.ToUpper(converted_word[converted_word.Length - 3]);
 
         }
+        converted_word += temp1;
 
         pass_components.Add(converted_word);
 
         string second_word = path.MakeReadable();
-        second_word = second_word.Remove(second_word.Length - 1);
         if (complexity > 2)
         {
             string temp = "";
             if (complexity == 2 || complexity == 3)
             {
-                temp += char.ToUpper(second_word[1]);
-                temp += char.ToUpper(second_word[2]);
+                temp += char.ToUpper(second_word[second_word.Length -1]);
+                temp += char.ToUpper(second_word[second_word.Length - 2]);
             }
             else if (complexity == 1)
             {
@@ -230,9 +228,9 @@ public class ChoosePath
             }
             else if (complexity == 4)
             {
-                temp += char.ToUpper(second_word[1]);
-                temp += char.ToUpper(second_word[2]);
-                temp += char.ToUpper(second_word[3]);
+                temp += char.ToUpper(second_word[second_word.Length - 1]);
+                temp += char.ToUpper(second_word[second_word.Length - 2]);
+                temp += char.ToUpper(second_word[second_word.Length - 3]);
             }
             second_word += temp;
             pass_components.Add(second_word);
@@ -345,9 +343,6 @@ public class Filler
             case 4:
                 min_length = 14;
                 break;
-            default:
-                Console.WriteLine("something went wrong");
-                break;
         }
         //then add random bits accordingly
         while (item.Length < min_length)
@@ -397,7 +392,7 @@ public class Filler
 public class Finish
 {
     public void End()
-    {
+    {   
         Console.WriteLine("Again? (y if yes)");
         string restart = Console.ReadLine();
         if (restart == "y")

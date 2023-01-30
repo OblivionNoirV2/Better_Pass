@@ -17,6 +17,7 @@ public class GetComplexity
         if (!File.Exists("api_key.txt"))
         {
             Console.WriteLine("Enter API key: ");
+
             api_key = Console.ReadLine();
             File.WriteAllText("api_key.txt", api_key);
 
@@ -397,7 +398,7 @@ public class GetWord
             else
             {
 
-                Console.WriteLine($"Error: {(int)response.StatusCode} {response.ReasonPhrase}");
+                Console.WriteLine($"Something went wrong with the API: {(int)response.StatusCode} {response.ReasonPhrase}");
                 return null;
             }
 

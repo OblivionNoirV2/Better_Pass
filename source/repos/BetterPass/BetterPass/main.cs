@@ -183,56 +183,62 @@ public class ChoosePath
 
         ChoosePath path = new ChoosePath();
         string converted_word = path.MakeReadable();
-        List<string> pass_components = new List<string>();
+        converted_word.ToLower();
 
+        List<string> pass_components = new List<string>();
+        char[] up_you_go = converted_word.ToCharArray();
         //set up words
         //add uppercase 
-        string temp1 = "";
+  
         if (complexity == 1)
         {
-         
-            temp1 += char.ToUpper(converted_word[converted_word.Length - 1]);
+            up_you_go[converted_word.Length - 1] = char.ToUpper(up_you_go[converted_word.Length - 1]);
+      
 
         }
         else if (complexity == 2 || complexity == 3)
         {
 
-            temp1 += char.ToUpper(converted_word[converted_word.Length - 1]);
-            temp1 += char.ToUpper(converted_word[converted_word.Length - 2]);
+            up_you_go[converted_word.Length - 1] = char.ToUpper(up_you_go[converted_word.Length - 1]);
+            up_you_go[converted_word.Length - 2] = char.ToUpper(up_you_go[converted_word.Length - 2]);
 
         }
         else if (complexity == 4)
         {
 
-            temp1 += char.ToUpper(converted_word[converted_word.Length - 1]);
-            temp1 += char.ToUpper(converted_word[converted_word.Length - 2]);
-            temp1 += char.ToUpper(converted_word[converted_word.Length - 3]);
+            up_you_go[converted_word.Length - 1] = char.ToUpper(up_you_go[converted_word.Length - 1]);
+            up_you_go[converted_word.Length - 2] = char.ToUpper(up_you_go[converted_word.Length - 2]);
+            up_you_go[converted_word.Length - 3] = char.ToUpper(up_you_go[converted_word.Length - 3]);
 
         }
-        converted_word += temp1;
 
+        //converted_word += temp1;
+        converted_word = new string(up_you_go);
         pass_components.Add(converted_word);
-
+        //need to REPLACE the ending characters, not append 
         string second_word = path.MakeReadable();
+        char[] up_you_go2 = second_word.ToCharArray();
+        second_word.ToLower();
         if (complexity > 2)
         {
-            string temp = "";
+          
             if (complexity == 2 || complexity == 3)
             {
-                temp += char.ToUpper(second_word[second_word.Length -1]);
-                temp += char.ToUpper(second_word[second_word.Length - 2]);
+                up_you_go2[second_word.Length - 1] = char.ToUpper(up_you_go2[second_word.Length - 1]);
+                up_you_go2[second_word.Length - 2] = char.ToUpper(up_you_go2[second_word.Length - 2]);
+
             }
             else if (complexity == 1)
             {
-                temp += char.ToUpper(second_word[second_word.Length - 1]);
+                up_you_go2[second_word.Length - 1] = char.ToUpper(up_you_go2[second_word.Length - 1]);
             }
             else if (complexity == 4)
             {
-                temp += char.ToUpper(second_word[second_word.Length - 1]);
-                temp += char.ToUpper(second_word[second_word.Length - 2]);
-                temp += char.ToUpper(second_word[second_word.Length - 3]);
+                up_you_go2[second_word.Length - 1] = char.ToUpper(up_you_go2[second_word.Length - 1]);
+                up_you_go2[second_word.Length - 2] = char.ToUpper(up_you_go2[second_word.Length - 2]);
+                up_you_go2[second_word.Length - 3] = char.ToUpper(up_you_go2[second_word.Length - 3]);
             }
-            second_word += temp;
+            second_word = new string(up_you_go2);
             pass_components.Add(second_word);
         }
 
@@ -326,7 +332,7 @@ public class Filler
     int min_length = 0;
     public void AddFiller(string item)
     {
-
+        //Pick a random method of adding filler
         int add_choice = addstuff.Next(1, 4);
         //first determine the rules to go by
         switch (GetComplexity.difficulty_selection)
@@ -344,7 +350,7 @@ public class Filler
                 min_length = 14;
                 break;
         }
-        //then add random bits accordingly
+        //then add random strings accordingly
         while (item.Length < min_length)
         {
    
@@ -414,10 +420,11 @@ public class GetWord
     public async Task<string> WordFetch()
     {
 
-        var client = new HttpClient();
-        //Timeout after 10 seconds
-        client.Timeout = TimeSpan.FromSeconds(10);
-        //Fetch the API key from my local machine
+        var client = new HttpClient
+        {
+            //Timeout after 10 seconds
+            Timeout = TimeSpan.FromSeconds(10)
+        };
         client.DefaultRequestHeaders.Add("X-Api-Key", GetComplexity.api_key);
         try
         {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Collections.Generic;
@@ -399,3 +399,4 @@ public class GetWord
     }
 
 };
+

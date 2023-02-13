@@ -11,26 +11,19 @@ public class GetComplexity
 {
     public static int difficulty_selection;
     public static string api_key;
-    static readonly string filePath = Path.Combine(Directory.GetCurrentDirectory(), "api_key.txt");
-    public static int Main()
-
+    public static void Main()
     {
-      
-
-        if (!File.Exists(filePath))
-        {
-            Console.WriteLine("Enter API key: ");
-            api_key = Console.ReadLine();
-            File.WriteAllText(filePath, api_key);
-        }
-        else
-        {
-            api_key = File.ReadAllText(filePath);
-        }
-
+        Console.WriteLine("Enter API key: ");
+        api_key = Console.ReadLine();
+        Begin();
+   
+       
+    }
+    public static int Begin()
+    {
         Console.WriteLine(
-            "Select a complexity level, 1-4. I for info."
-            );
+           "Select a complexity level, 1-4. I for info."
+           );
         //take in the readline value, check for int...
         var reply = Console.ReadLine();
         if (reply.ToUpper() == "I")
@@ -52,8 +45,10 @@ public class GetComplexity
         RandomAssembly choice = new RandomAssembly();
         choice.RA();
         return difficulty_selection;
+
     }
 };
+
 //determine if user wants randomized password assembly
 public class RandomAssembly
 {
@@ -363,7 +358,7 @@ public class Finish
         string restart = Console.ReadLine();
         if (restart == "y")
         {
-            GetComplexity.Main();
+            GetComplexity.Begin();
         }
         else
         {
@@ -374,7 +369,6 @@ public class Finish
 
 };
 
-//Need to handle 502 bad gateway that happens sometimes
 public class GetWord
 {
     public async Task<string> WordFetch()

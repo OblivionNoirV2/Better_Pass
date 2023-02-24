@@ -1,5 +1,6 @@
 Gives you an original password to use that meets site criteria(customizable with level of complexity), with real words. One you can actually remember, not the scrambled mess a browser suggests. (But you can make it randomized too, if you wish). For obvious reasons, generations are not saved.
 I'll probably publish it at some point but for now:
+
 To use, you'll need .NET Framework 4.8 and an API key from here:
 https://api-ninjas.com/
 

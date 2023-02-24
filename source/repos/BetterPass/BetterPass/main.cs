@@ -11,19 +11,26 @@ public class GetComplexity
 {
     public static int difficulty_selection;
     public static string api_key;
-    public static void Main()
+    static readonly string filePath = Path.Combine(Directory.GetCurrentDirectory(), "api_key.txt");
+    public static int Main()
+
     {
-        Console.WriteLine("Enter API key: ");
-        api_key = Console.ReadLine();
-        Begin();
-   
-       
-    }
-    public static int Begin()
-    {
+
+
+        if (!File.Exists(filePath))
+        {
+            Console.WriteLine("Enter API key: ");
+            api_key = Console.ReadLine();
+            File.WriteAllText(filePath, api_key);
+        }
+        else
+        {
+            api_key = File.ReadAllText(filePath);
+        }
+
         Console.WriteLine(
-           "Select a complexity level, 1-4. I for info."
-           );
+            "Select a complexity level, 1-4. I for info."
+            );
         //take in the readline value, check for int...
         var reply = Console.ReadLine();
         if (reply.ToUpper() == "I")
@@ -45,10 +52,8 @@ public class GetComplexity
         RandomAssembly choice = new RandomAssembly();
         choice.RA();
         return difficulty_selection;
-
     }
 };
-
 //determine if user wants randomized password assembly
 public class RandomAssembly
 {
@@ -125,7 +130,7 @@ namespace Fluff
                 int alph_index = rnd_alph.Next(0, alphabet.Length);
                 char alph_char = alphabet[alph_index];
                 generated_alphs.Add(alph_char);
-                
+
             };
             return generated_alphs;
         }
@@ -308,7 +313,7 @@ public class Filler
         //then add random strings accordingly
         while (item.Length < min_length)
         {
-   
+
             switch (add_choice)
             {
                 case 1: //num
@@ -335,7 +340,7 @@ public class Filler
                     foreach (string str5 in char2str3)
                     {
                         item += str5;
-        
+
                     }
                     break;
             }
@@ -353,12 +358,12 @@ public class Filler
 public class Finish
 {
     public void End()
-    {   
+    {
         Console.WriteLine("Again? (y if yes)");
         string restart = Console.ReadLine();
         if (restart == "y")
         {
-            GetComplexity.Begin();
+            GetComplexity.Main();
         }
         else
         {
@@ -368,6 +373,7 @@ public class Finish
     }
 
 };
+
 
 public class GetWord
 {
@@ -380,23 +386,22 @@ public class GetWord
             Timeout = TimeSpan.FromSeconds(10)
         };
         client.DefaultRequestHeaders.Add("X-Api-Key", GetComplexity.api_key);
-     
-            var response = await client.GetAsync("https://api.api-ninjas.com/v1/randomword");
-            if (response.IsSuccessStatusCode)
-            {
-                //wait for the async call to finish, then return response
 
-                return await response.Content.ReadAsStringAsync();
+        var response = await client.GetAsync("https://api.api-ninjas.com/v1/randomword");
+        if (response.IsSuccessStatusCode)
+        {
+            //wait for the async call to finish, then return response
 
-            }
-            else
-            {
+            return await response.Content.ReadAsStringAsync();
 
-                Console.WriteLine($"Something went wrong with the API: {(int)response.StatusCode}");
-                GetComplexity.Main();
-                return "retrying";
-            }
+        }
+        else
+        {
+
+            Console.WriteLine($"Something went wrong with the API: {(int)response.StatusCode}");
+            GetComplexity.Main();
+            return "retrying";
+        }
     }
 
 };
-

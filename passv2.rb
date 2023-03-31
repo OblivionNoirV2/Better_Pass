@@ -72,6 +72,7 @@ module Fluff
   end
 
   def self.rand_sym(num_sym_generations)
+    #%w is shorthand for an array of strings
     symbols = %w[~ ` ! @ # $ % ^ & * ( ) _ - + = { [ } ] | : ; " < > . ? /]
     (1..num_sym_generations).map { symbols.sample }
   end
@@ -83,7 +84,7 @@ class ChoosePath
     while word.length < 5
       make_readable
     end
-    word
+    return word
   end
 
   def func_loop(complexity, is_random)
@@ -143,8 +144,8 @@ class Filler
       end
     end
 
-    puts password
-    Finish.end
+    puts(password)
+    Finish.end()
   end
 end
 
@@ -155,7 +156,7 @@ class Finish
     if restart == 'y'
       GetComplexity.main
     else
-      exit
+      exit()
     end
   end
 end
@@ -177,7 +178,7 @@ class GetWord
     else
       puts "Something went wrong with the API: #{response.code}"
       GetComplexity.main
-      'retrying'
+      return 'retrying'
     end
   end
 end
